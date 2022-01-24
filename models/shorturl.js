@@ -1,8 +1,8 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const shorturlSchema = new Schema({
-  originUrl: {type: String, required: true},
-  shortUrl: type: String
+  origin_url: {type: String, required: true},
+  short_url: {type: String}
 })
 
 //export model

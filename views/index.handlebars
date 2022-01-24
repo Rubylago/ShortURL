@@ -1,0 +1,15 @@
+<div class="container text-center" style="margin-top: 50px;">
+  <label for="basic-url" class="form-label">Paste the URL to be shortened</label>
+  <form method="POST" action="/urls">
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" placeholder="Enter the link here" aria-label="origin_url" name="origin_url" id="basic-url" aria-describedby="button-addon2">
+      <button class="btn btn-outline-secondary" type="submit" id="button-addon2">GO!</button>
+    </div>
+  </form>
+  
+ {{# if origin_url}}
+ <p>Success! Copy this link. </p>
+ {{origin_url}}
+ {{/if}}
+</div>
+
