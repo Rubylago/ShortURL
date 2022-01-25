@@ -38,19 +38,28 @@ app.get('/:shorturl', (req, res) => {
 })
 
 app.post('/urls', (req, res) => {
-  const origin_url = req.body.origin_url
-  // console.log(req.body.origin_url)
-  // 用函式處理隨機5碼，輸出縮短的url+code
-  // 加進伺服器裡
-  // 顯示出最新一筆資料在下面
+  const url = req.body.origin_url
   const code = generate_url(5)
   let short_url = `http://localhost:${port}/`
   short_url += code
-  // console.log(short_url)  //http://localhost:3000/lVjuG
 
-  return shorturlSchema.create({origin_url, short_url})
-  .then(()=> res.render('index', { short_url }))
-  .catch(error => console.log(error))
+  // 用.count() 確認資料庫裡有沒有這筆原始連結 
+  // 有的話直接回傳已經縮過的shorturl
+  // 沒有的話creat新的
+
+ shorturlSchema.count({origin_url: url})
+  .lean()
+  .then(data => {
+      if(data > 0){
+        // console.log('>0',data) 
+        return shorturlSchema.findOne({origin_url: url},{short_url:1, _id:0}).then((short_url)=> res.render('index', { short_url: short_url.short_url })).catch(error => console.log(error))
+      } else {
+        // console.log('=0',data)
+        return shorturlSchema.create({origin_url: url, short_url})
+          .then(()=> res.render('index', { short_url }))
+          .catch(error => console.log(error))
+      }
+    })
 })
 
 app.listen(port, () => {
