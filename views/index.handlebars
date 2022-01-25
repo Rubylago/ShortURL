@@ -7,9 +7,11 @@
     </div>
   </form>
   
- {{# if origin_url}}
+ {{# if short_url}}
  <p>Success! Copy this link. </p>
- {{origin_url}}
+ {{ short_url }}
  {{/if}}
+
+ {{item.origin_url}}
 </div>
 
