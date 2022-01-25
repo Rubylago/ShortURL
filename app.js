@@ -2,10 +2,10 @@ const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
-// const { redirect } = require('express/lib/response') // 又發現系統自動新增的一行
 const shorturlSchema = require('./models/shorturl')
 const generate_url = require('./generate_url')
 const { redirect } = require('express/lib/response')
+// const { redirect } = require('express/lib/response') 又發現系統自動新增的一行，找不到原因，到底!!!
 const port = 3000
 
 mongoose.connect('mongodb://localhost/shorturl-list')
