@@ -29,23 +29,25 @@ app.get('/', (req, res) => {
   res.render('index')
 })
 
-app.get('/:shorturl', (req, res) => {
+app.get('/urls/:shorturl', (req, res) => {
   const code = req.params.shorturl
+  console.log(code)
   return shorturlSchema.findOne({short_url: {$regex: code}},{origin_url:1, _id:0})
-  // 撈出原始連結 重新導向
   .then(item => res.redirect(item.origin_url))
   .catch(error => console.log(error))
 })
 
 app.post('/urls', (req, res) => {
-  const url = req.body.origin_url
+  const url = req.body.origin_url.trim()
   const code = generate_url(5)
-  let short_url = `http://localhost:${port}/`
+  let short_url = `http://localhost:${port}/urls/`
   short_url += code
-
-  // 用.count() 確認資料庫裡有沒有這筆原始連結 
-  // 有的話直接回傳已經縮過的shorturl
-  // 沒有的話creat新的
+  // 確認使用者輸入內容不為空
+  // 若為空 不動作 用{{#if}}跳提醒
+  if (url.length === 0){
+    const warning ="請填入內容"
+    return res.render('index', { warning })
+  }
 
  shorturlSchema.count({origin_url: url})
   .lean()
