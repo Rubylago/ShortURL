@@ -1,23 +1,13 @@
 const express = require('express')
 const app = express()
-const mongoose = require('mongoose')
+require('./config/mongoose.js')
 const exphbs = require('express-handlebars')
+
 const { redirect } = require('express/lib/response')
 // const { redirect } = require('express/lib/response') 又發現系統自動新增的一行，找不到原因，到底!!!
+
 const routes = require('./routes')
 const port = 3000
-
-mongoose.connect('mongodb://localhost/shorturl-list')
-
-const db = mongoose.connection
-
-db.on('error', () => {
-  console.log('mongodb error')
-})
-
-db.once('open', () => {
-  console.log('mongodb connected')
-})
 
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
