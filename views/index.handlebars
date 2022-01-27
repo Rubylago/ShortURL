@@ -8,12 +8,10 @@
   </form>
   
  {{# if short_url}}
- <p>Success! Copy this link. </p>
- {{ short_url }}
+  <p>Success! Copy this link. </p>
+  <span id="copyLink">{{ short_url }}</span>
+  <button type="button" onclick="copyLink()">Copy</button>
  {{/if}}
 
-  
-
- {{item.origin_url}}
 </div>
 
